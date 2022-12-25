@@ -58,10 +58,9 @@ namespace RustDeskApi.Controllers
 
         [HttpPost]
         [Route("api/ab/get")]
-        public AbModel GetAb([FromServices] IStorageService storageService,
-                             [FromServices] IScopeProvider scopeProvider)
+        public AbModel GetAb([FromServices] IStorageService storageService)
         {
-            storageService.GetUserTagsAndPeers(scopeProvider.UserId.Value, out var tags, out var peers);
+            storageService.GetUserTagsAndPeers(_scopeProvider.UserId.Value, out var tags, out var peers);
 
             return new AbModel
             {
@@ -76,12 +75,11 @@ namespace RustDeskApi.Controllers
         [HttpPost]
         [Route("api/ab")]
         public IActionResult PostAb(AbModel abModel,
-                                    [FromServices] IStorageService storageService,
-                                    [FromServices] IScopeProvider scopeProvider)
+                                    [FromServices] IStorageService storageService)
         {
             var abData = JsonSerializer.Deserialize<AbData>(abModel.Data);
 
-            storageService.UpdateUserTagsAndPeers(scopeProvider.UserId.Value,
+            storageService.UpdateUserTagsAndPeers(_scopeProvider.UserId.Value,
                                                   abData.Tags,
                                                   abData.Peers);
 
