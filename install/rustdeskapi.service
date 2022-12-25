@@ -1,0 +1,13 @@
+[Unit]
+Description=RustDeskApi
+
+[Service]
+WorkingDirectory=/var/rustdeskapi
+ExecStart=/usr/bin/dotnet /var/rustdeskapi/RustDeskApi.dll
+Restart=always
+RestartSec=10
+User=rustdeskapi
+Environment=ASPNETCORE_ENVIRONMENT=Production
+
+[Install]
+WantedBy=multi-user.target

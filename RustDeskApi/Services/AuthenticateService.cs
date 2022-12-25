@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using RustDeskApi.Models;
 using RustDeskApi.Settings;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
 namespace RustDeskApi.Services
@@ -80,7 +79,7 @@ namespace RustDeskApi.Services
 
             return new LoginResultModel
             {
-                AccessToken = CreateToken(dbUser.Id.ToString("D"), user.Login),
+                AccessToken = CreateToken(dbUser.Id.ToString("D"), user.Login, loginModel.Id, loginModel.Uuid),
                 User = new UserModel
                 {
                     Name = user.Login
@@ -88,7 +87,7 @@ namespace RustDeskApi.Services
             };
         }
 
-        private string CreateToken(string userId, string login)
+        private string CreateToken(string userId, string login, long id, string uuid)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var ticket = new SecurityTokenDescriptor
@@ -96,9 +95,10 @@ namespace RustDeskApi.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ApplicationConstants.Claims.UserId, userId),
+                    new Claim(ApplicationConstants.Claims.Id, id.ToString()),
+                    new Claim(ApplicationConstants.Claims.Uuid, uuid),
                     new Claim(ClaimTypes.Name, login)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
                 IssuedAt = DateTime.UtcNow,
                 Issuer = ApplicationConstants.Jwt.Issuer,
                 Audience = ApplicationConstants.Jwt.Audience,

@@ -7,6 +7,8 @@ namespace RustDeskApi
     {
         public const string AccountKey = "account";
         public const string UserId = "userId";
+        public const string Id = "id";
+        public const string Uuid = "uuid";
 
         public class Jwt
         {
@@ -20,6 +22,8 @@ namespace RustDeskApi
         public static class Claims
         {
             public const string UserId = "api-user-id";
+            public const string Id = "api-id";
+            public const string Uuid = "api-uuid";
         }
     }
 }

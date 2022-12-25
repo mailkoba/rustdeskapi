@@ -9,9 +9,11 @@ namespace RustDeskApi.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
-        public ApiController(ILogger logger)
+        public ApiController(ILogger logger,
+                             IScopeProvider scopeProvider)
         {
             _logger = logger;
+            _scopeProvider = scopeProvider;
         }
 
         [HttpPost]
@@ -36,16 +38,21 @@ namespace RustDeskApi.Controllers
         [Route("api/logout")]
         public IActionResult Logout(LogoutModel logoutModel)
         {
+            CheckSecurity(logoutModel.Id, logoutModel.Uuid);
+
             return Ok();
         }
 
         [HttpPost]
         [Route("api/currentUser")]
-        public UserModel GetCurrentUser(LogoutModel logoutModel)
+        public UserModel GetCurrentUser(CurrentUserModel logoutModel,
+                                        [FromServices] IStorageService storageService)
         {
+            CheckSecurity(logoutModel.Id, logoutModel.Uuid);
+
             return new UserModel
             {
-                Name = logoutModel.Id.ToString()
+                Name = storageService.GetUserById(_scopeProvider.UserId.Value).Name
             };
         }
 
@@ -82,5 +89,21 @@ namespace RustDeskApi.Controllers
         }
 
         private readonly ILogger _logger;
+        private readonly IScopeProvider _scopeProvider;
+
+        private void CheckSecurity(long id, string uuid)
+        {
+            if (!_scopeProvider.Id.HasValue || _scopeProvider.Id.Value != id)
+            {
+                throw new Exception("Not matched id!");
+            }
+
+            if (string.IsNullOrWhiteSpace(_scopeProvider.Uuid) ||
+                string.IsNullOrWhiteSpace(uuid) ||
+                _scopeProvider.Uuid.Equals(uuid))
+            {
+                throw new Exception("Not matched uuid!");
+            }
+        }
     }
 }

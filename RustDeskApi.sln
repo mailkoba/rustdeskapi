@@ -11,6 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{05
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "install", "install", "{8B276CF3-62D0-4B35-8030-E261608BA3FA}"
+	ProjectSection(SolutionItems) = preProject
+		install\install.sh = install\install.sh
+		install\rustdeskapi.service = install\rustdeskapi.service
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +30,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8B276CF3-62D0-4B35-8030-E261608BA3FA} = {05362BD1-0537-45AF-9C1E-A4383CE29D0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B7A6211E-5938-4B71-8095-7F8598F77C6B}
