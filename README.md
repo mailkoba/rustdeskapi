@@ -21,6 +21,11 @@ Simple Api Server implementation for [rustdesk](https://github.com/rustdesk/rust
 ```
 
 - The user's address book uses embedded LiteDB database with an automatically generated api.db file.
+- Installed service avaliable on port 34567. Default port can be changed in appsettings.json file:
+
+```json
+"urls": "http://0.0.0.0:34567",
+```
 
 #### Install as daemon on Linux
 
