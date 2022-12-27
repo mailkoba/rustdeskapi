@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ValidateAudience = true,
                 ValidIssuer = ApplicationConstants.Jwt.Issuer,
                 ValidAudience = ApplicationConstants.Jwt.Audience,
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 IssuerSigningKey = ApplicationConstants.Jwt.SigningKey,
                 ValidateIssuerSigningKey = true
             };

@@ -38,22 +38,40 @@ namespace RustDeskApi.Controllers
         [Route("api/logout")]
         public IActionResult Logout(LogoutModel logoutModel)
         {
-            CheckSecurity(logoutModel.Id, logoutModel.Uuid);
+            try
+            {
+                CheckSecurity(logoutModel.Id, logoutModel.Uuid);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+
+                return Unauthorized();
+            }
         }
 
         [HttpPost]
         [Route("api/currentUser")]
-        public UserModel GetCurrentUser(CurrentUserModel logoutModel,
-                                        [FromServices] IStorageService storageService)
+        public IActionResult GetCurrentUser(CurrentUserModel logoutModel,
+                                            [FromServices] IStorageService storageService)
         {
-            CheckSecurity(logoutModel.Id, logoutModel.Uuid);
-
-            return new UserModel
+            try
             {
-                Name = storageService.GetUserById(_scopeProvider.UserId.Value).Name
-            };
+                CheckSecurity(logoutModel.Id, logoutModel.Uuid);
+
+                return Ok(new UserModel
+                {
+                    Name = storageService.GetUserById(_scopeProvider.UserId.Value).Name
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+
+                return Unauthorized();
+            }
         }
 
         [HttpPost]
@@ -98,7 +116,7 @@ namespace RustDeskApi.Controllers
 
             if (string.IsNullOrWhiteSpace(_scopeProvider.Uuid) ||
                 string.IsNullOrWhiteSpace(uuid) ||
-                _scopeProvider.Uuid.Equals(uuid))
+                _scopeProvider.Uuid.Equals(uuid, StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new Exception("Not matched uuid!");
             }

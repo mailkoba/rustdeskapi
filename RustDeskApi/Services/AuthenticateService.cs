@@ -100,6 +100,7 @@ namespace RustDeskApi.Services
                     new Claim(ClaimTypes.Name, login)
                 }),
                 IssuedAt = DateTime.UtcNow,
+                Expires = new DateTime(9999, 1, 1),
                 Issuer = ApplicationConstants.Jwt.Issuer,
                 Audience = ApplicationConstants.Jwt.Audience,
                 SigningCredentials = new SigningCredentials(ApplicationConstants.Jwt.SigningKey,
