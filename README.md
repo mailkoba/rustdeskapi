@@ -31,7 +31,7 @@ Simple Api Server implementation for [rustdesk](https://github.com/rustdesk/rust
 
 - Install [.Net 7.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) on build machine
 - Run `dotnet publish -c Release -f "net7.0" -o ./publish ./RustDeskApi.csproj`
-- Install [.Net 7.0 ASP.NET Core Runtime] (https://dotnet.microsoft.com/en-us/download/dotnet/7.0) on target machine
+- Install [.Net 7.0 ASP.NET Core Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) on target machine
 - Copy publish directory to the target machine, default path is `/var/rustdeskapi`. If you uses another directory change path in `rustdeskapi.service` file.
 - Run `sudo install.sh`
 
