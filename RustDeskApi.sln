@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RustDeskApi", "RustDeskApi\RustDeskApi.csproj", "{FAFA5779-3F37-446E-AC48-89448DDE7CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RustDeskApi", "rustdeskapi\RustDeskApi.csproj", "{FAFA5779-3F37-446E-AC48-89448DDE7CEA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{05362BD1-0537-45AF-9C1E-A4383CE29D0E}"
 	ProjectSection(SolutionItems) = preProject
