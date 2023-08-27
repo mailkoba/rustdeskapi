@@ -72,7 +72,7 @@ namespace RustDeskApi.Services
 
             if (!user.Password.Equals(loginModel.Password))
             {
-                throw new Exception($"Wrong password for user {loginModel.Password}!");
+                throw new Exception($"Wrong password for user {loginModel.Username}!");
             }
 
             var dbUser = _storageService.GetOrCreateUser(user.Login);
