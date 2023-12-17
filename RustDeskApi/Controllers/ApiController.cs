@@ -116,7 +116,7 @@ namespace RustDeskApi.Controllers
 
             if (string.IsNullOrWhiteSpace(_scopeProvider.Uuid) ||
                 string.IsNullOrWhiteSpace(uuid) ||
-                _scopeProvider.Uuid.Equals(uuid, StringComparison.InvariantCultureIgnoreCase))
+               !_scopeProvider.Uuid.Equals(uuid, StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new Exception("Not matched uuid!");
             }
