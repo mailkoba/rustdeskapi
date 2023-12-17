@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  rustdeskapi:
+    container_name: rustdeskapi
+    restart: unless-stopped
+    image: ${DOCKER_REGISTRY-}rustdeskapi
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - 34567:34567
+    networks:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - /opt/rustdeskapi/users.json:/app/users.json:ro
+      - /opt/rustdeskapi/logs/:/app/logs
+      - /opt/rustdeskapi/api.db:/app/api.db
+    environment:
+      - Serilog__MinimumLevel=Debug
+      - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0
