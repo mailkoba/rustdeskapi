@@ -8,6 +8,8 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("users.json");
+
 builder.Host
        .UseSerilog((context, services, configuration) =>
                        configuration.ReadFrom.Configuration(context.Configuration)
