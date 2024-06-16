@@ -34,6 +34,23 @@ namespace RustDeskApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/login-options")]
+        [AllowAnonymous]
+        public IActionResult LoginOptions()
+        {
+            try
+            {
+                return Ok(Array.Empty<string>());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+
+                return Unauthorized();
+            }
+        }
+
         [HttpPost]
         [Route("api/logout")]
         public IActionResult Logout(LogoutModel logoutModel)
@@ -43,6 +60,39 @@ namespace RustDeskApi.Controllers
                 CheckSecurity(logoutModel.Id, logoutModel.Uuid);
 
                 return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+
+                return Unauthorized();
+            }
+        }
+
+        [HttpGet]
+        [Route("api/users")]
+        public IActionResult GetUsers([FromServices] IStorageService storageService,
+                                      [FromQuery] int current = 1,
+                                      [FromQuery] int pageSize = 100,
+                                      [FromQuery] string accessible = "",
+                                      [FromQuery] int status = 1)
+        {
+            try
+            {
+                var users = storageService.GetAllUsers();
+
+                return Ok(new UsersResponseModel
+                {
+                    Total = users.Length,
+                    Data = users.Skip(pageSize * current - 1)
+                                .Take(pageSize)
+                                .Select(x => new PublicUser
+                                {
+                                    Name = x.Name,
+                                    IsAdmin = true
+                                })
+                                .ToArray()
+                });
             }
             catch (Exception e)
             {
@@ -76,7 +126,23 @@ namespace RustDeskApi.Controllers
 
         [HttpPost]
         [Route("api/ab/get")]
-        public AbModel GetAb([FromServices] IStorageService storageService)
+        public AbModel GetAbByPost([FromServices] IStorageService storageService)
+        {
+            storageService.GetUserTagsAndPeers(_scopeProvider.UserId.Value, out var tags, out var peers);
+
+            return new AbModel
+            {
+                Data = JsonSerializer.Serialize(new AbData
+                {
+                    Tags = tags,
+                    Peers = peers
+                })
+            };
+        }
+
+        [HttpGet]
+        [Route("api/ab")]
+        public AbModel GetAbByGet([FromServices] IStorageService storageService)
         {
             storageService.GetUserTagsAndPeers(_scopeProvider.UserId.Value, out var tags, out var peers);
 

@@ -14,4 +14,7 @@ RUN rm /app/publish/appsettings.Development.json
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
+
+RUN apk --no-cache add icu-libs
+
 ENTRYPOINT ["./RustDeskApi"]

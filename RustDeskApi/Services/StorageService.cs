@@ -6,6 +6,8 @@ namespace RustDeskApi.Services
 {
     public interface IStorageService
     {
+        User[] GetAllUsers();
+
         User GetOrCreateUser(string login);
 
         User GetUserById(Guid userId);
@@ -17,6 +19,22 @@ namespace RustDeskApi.Services
 
     public class StorageService : IStorageService
     {
+        public User[] GetAllUsers()
+        {
+            Semaphore.Wait();
+
+            try
+            {
+                using var db = new LiteDatabase(DbName);
+                var users = db.GetCollection<User>(nameof(User).ToLower());
+                return users.FindAll().ToArray();
+            }
+            finally
+            {
+                Semaphore.Release();
+            }
+        }
+
         public User GetOrCreateUser(string login)
         {
             Semaphore.Wait();
